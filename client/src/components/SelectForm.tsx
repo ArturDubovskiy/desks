@@ -1,22 +1,23 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, FC } from 'react'
+import { ISelectFormProps } from '../interfaces/homePage'
 
-const SelectForm = () => {
-  const [age, setAge] = useState('')
+const SelectForm: FC<ISelectFormProps> = ({ desks, value }) => {
+  const [desk, setDesk] = useState(value)
 
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string)
+    setDesk(event.target.value as string)
   }
   return (
     <FormControl variant="filled" style={{ minWidth: 150, width: '100%' }}>
       <InputLabel>Select desk</InputLabel>
-      <Select value={age} onChange={handleChange}>
+      <Select value={desk} onChange={handleChange}>
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        {desks.map((desk: any) => {
+          return <MenuItem value={desk.id}>{desk.name}</MenuItem>
+        })}
       </Select>
     </FormControl>
   )

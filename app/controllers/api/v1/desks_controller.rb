@@ -14,6 +14,7 @@ class Api::V1::DesksController < ApplicationController
 
   # POST /desks
   def create
+    puts(desk_params)
     @desk = Desk.new(desk_params)
     if @desk.save
       render json: @desk
@@ -25,7 +26,7 @@ class Api::V1::DesksController < ApplicationController
   # PUT /desks/:id
   def update
     if @desk
-      @desk.update(user_params)
+      @desk.update(desk_params)
       render json: { message: "Desk sucessfully updated" }, status: :ok
     else
       render error: { error: "Unable to update Desk" }, status: :bad_request
@@ -44,8 +45,8 @@ class Api::V1::DesksController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:desk)
+  def desk_params
+    params.require(:desk).permit(:name)
   end
 
   def find_desk

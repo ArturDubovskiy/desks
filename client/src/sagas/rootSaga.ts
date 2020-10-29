@@ -1,5 +1,6 @@
 import { fork } from 'redux-saga/effects'
-import { loadDesksWatcher } from './sagas/desksSaga'
+import { createDeskWatcher, loadDesksWatcher } from './desksSaga'
 export function* rootSaga() {
   yield fork(loadDesksWatcher)
+  yield fork(createDeskWatcher)
 }

@@ -11,10 +11,6 @@ body {
   box-sizing: border-box;
 }
 
-.home-page-wrapper {
-  margin: 2%;
-}
-
 .create-desk-form {
   width: 100%;
   height: 200px;
