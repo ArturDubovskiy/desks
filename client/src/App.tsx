@@ -1,14 +1,15 @@
-import { Container } from '@material-ui/core';
-import React from 'react';
+import { Container } from '@material-ui/core'
+import React, { FC } from 'react'
+import NavBar from './components/NavBar'
+import HomePage from './pages/HomePage'
 
-function App() {
-  return (
-    <div className="App">
-      <Container fixed>
-        Hello
-      </Container>
-    </div>
-  );
-}
+const App: FC = () => (
+  <div className="App">
+    <NavBar></NavBar>
+    <Container fixed>
+      <HomePage></HomePage>
+    </Container>
+  </div>
+)
 
-export default App;
+export default App
