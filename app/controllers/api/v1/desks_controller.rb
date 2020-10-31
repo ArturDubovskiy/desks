@@ -9,7 +9,7 @@ class Api::V1::DesksController < ApplicationController
 
   # GET /desks/:id
   def show
-    render json: @user
+    render json: @desk
   end
 
   # POST /desks
@@ -27,7 +27,8 @@ class Api::V1::DesksController < ApplicationController
   def update
     if @desk
       @desk.update(desk_params)
-      render json: { message: "Desk sucessfully updated" }, status: :ok
+      puts(@desk)
+      render json: @desk, status: :ok
     else
       render error: { error: "Unable to update Desk" }, status: :bad_request
     end
@@ -37,7 +38,7 @@ class Api::V1::DesksController < ApplicationController
   def destroy
     if @desk
       @desk.destroy
-      render json: { message: "Desk successfully deleted" }, status: :ok
+      render json: {desk: @desk, message: "Desk successfully deleted" }, status: :ok
     else
       render error: { error: "Unadle to delete Desk" }, status: :bad_request
     end

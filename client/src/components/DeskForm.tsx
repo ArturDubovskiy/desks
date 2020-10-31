@@ -1,7 +1,10 @@
-import { Button, Grid, makeStyles, Theme } from '@material-ui/core'
-import React, { FC, useState } from 'react'
+import { Grid, makeStyles, Theme, IconButton } from '@material-ui/core'
+import React, { FC, useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField'
-import { IDeskForm, IDeskFormProps } from '../interfaces/homePage'
+import SendIcon from '@material-ui/icons/Send'
+import Alert from '@material-ui/lab/Alert'
+import { DeskFormInterface, DeskFormProps } from '../interfaces/homePage'
+import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -11,18 +14,32 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: '4px',
   },
   submit: {
-    width: '100%',
     color: 'white',
     background: 'rgb(14, 168, 0)',
     '&:hover': {
       background: 'rgba(14, 168, 0, 0.7)',
     },
   },
+  close: {
+    color: 'white',
+    background: 'rgb(255, 0, 0)',
+    '&:hover': {
+      background: 'rgba(255, 0, 0, 0.7)',
+    },
+  },
 }))
 
-const DeskForm: FC<IDeskFormProps> = ({ loading, createDesk }) => {
+const DeskForm: FC<DeskFormProps> = ({
+  loading,
+  createDesk,
+  error,
+  edit,
+  close,
+  desk,
+  editDesk,
+}) => {
   const classes = useStyles()
-  const [form, setForm] = useState<IDeskForm>({
+  const [form, setForm] = useState<DeskFormInterface>({
     name: '',
   })
   const [errorMsg, setErrorMsg] = useState<string>('')
@@ -32,37 +49,71 @@ const DeskForm: FC<IDeskFormProps> = ({ loading, createDesk }) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
-  const submitHandler = () => {
+  useEffect(() => {
+    setErrorMsg('')
+    if (desk && edit) {
+      setForm({ name: desk.name })
+    } else {
+      setForm({ name: '' })
+    }
+  }, [desk, edit])
+
+  const onFormSubmit = (event: any) => {
+    event.preventDefault()
     if (form.name) {
-      createDesk(form)
+      if (desk && edit) {
+        editDesk(form)
+        close()
+      } else {
+        createDesk(form)
+        setForm({ name: '' })
+        close()
+      }
     } else {
       setErrorMsg('Title cant be empty')
     }
   }
 
   return (
-    <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
+    <form className={classes.form} onSubmit={onFormSubmit}>
       <Grid container spacing={3} alignItems="center">
-        <Grid item xs={10}>
+        <Grid item sm={8} xs={12} md={10}>
           <TextField
             fullWidth
             label="Desk name"
             name="name"
+            value={form.name}
             onChange={changeHandler}
             error={Boolean(errorMsg)}
             helperText={errorMsg}
           />
         </Grid>
-        <Grid item xs={2}>
-          <Button
-            onClick={submitHandler}
-            className={classes.submit}
+        <Grid item sm={2} xs={3} md={1}>
+          <IconButton
+            type="submit"
+            color="secondary"
             disabled={loading}
-            variant="outlined"
+            className={classes.submit}
+            aria-label="add an alarm"
           >
-            Send
-          </Button>
+            <SendIcon />
+          </IconButton>
         </Grid>
+        <Grid item sm={2} xs={3} md={1}>
+          <IconButton
+            onClick={close}
+            color="secondary"
+            className={classes.close}
+            aria-label="add an alarm"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Grid>
+        {error && (
+          <Grid item sm={12}>
+            <Alert severity="error">{error}</Alert>
+          </Grid>
+        )}
       </Grid>
     </form>
   )

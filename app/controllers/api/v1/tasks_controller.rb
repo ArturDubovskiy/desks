@@ -9,7 +9,7 @@ class Api::V1::TasksController < ApplicationController
 
   # GET /Tasks/:id
   def show
-    render json: @user
+    render json: @task
   end
 
   # POST /Tasks

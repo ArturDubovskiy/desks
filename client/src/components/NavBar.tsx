@@ -1,5 +1,5 @@
 import AppBar from '@material-ui/core/AppBar'
-import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
