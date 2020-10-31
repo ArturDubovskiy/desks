@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -30,11 +31,7 @@
     "typescript": "~3.7.2",
     "yup": "^0.29.1"
   },
-  "proxy": {
-    "/api": {
-      "target": "http://localhost:3001"
-    }
-  },
+  "proxy": "http://127.0.0.1:3001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -57,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.8"
   }
 }

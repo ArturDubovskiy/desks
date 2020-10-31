@@ -9,11 +9,12 @@ class Api::V1::DesksController < ApplicationController
 
   # GET /desks/:id
   def show
-    render json: @user
+    render json: @desk
   end
 
   # POST /desks
   def create
+    puts(desk_params)
     @desk = Desk.new(desk_params)
     if @desk.save
       render json: @desk
@@ -25,8 +26,9 @@ class Api::V1::DesksController < ApplicationController
   # PUT /desks/:id
   def update
     if @desk
-      @desk.update(user_params)
-      render json: { message: "Desk sucessfully updated" }, status: :ok
+      @desk.update(desk_params)
+      puts(@desk)
+      render json: @desk, status: :ok
     else
       render error: { error: "Unable to update Desk" }, status: :bad_request
     end
@@ -36,7 +38,7 @@ class Api::V1::DesksController < ApplicationController
   def destroy
     if @desk
       @desk.destroy
-      render json: { message: "Desk successfully deleted" }, status: :ok
+      render json: {desk: @desk, message: "Desk successfully deleted" }, status: :ok
     else
       render error: { error: "Unadle to delete Desk" }, status: :bad_request
     end
@@ -44,8 +46,8 @@ class Api::V1::DesksController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:desk)
+  def desk_params
+    params.require(:desk).permit(:name)
   end
 
   def find_desk
