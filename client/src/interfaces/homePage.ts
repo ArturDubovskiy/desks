@@ -39,7 +39,6 @@ export interface DesksState {
   desks: Desk[]
   loading: boolean
   errorDesks: string
-  currentDesk: DeskRespItem | object
   errorCreateDesk: string
   errorDeleteDesk: string
 }

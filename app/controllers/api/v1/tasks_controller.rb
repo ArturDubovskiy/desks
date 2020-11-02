@@ -14,11 +14,11 @@ class Api::V1::TasksController < ApplicationController
 
   # POST /Tasks
   def create
-    @task = Task.new(Task_params)
+    @task = Task.new(task_params)
     if @task.save
-      render json: @task
+      render json: @task, status: :created
     else
-      render error: { error: "Unable to create Task" }, status: :bad_request
+      render json: { error: "Unable to create Task" }, status: :bad_request
     end
   end
 
@@ -26,10 +26,10 @@ class Api::V1::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     if @task
-      @task.update(user_params)
+      @task.update(task_params)
       render json: { message: "Task sucessfully updated" }, status: :ok
     else
-      render error: { error: "Unable to update Task" }, status: :bad_request
+      render json: { error: "Unable to update Task" }, status: :bad_request
     end
   end
 
@@ -40,14 +40,14 @@ class Api::V1::TasksController < ApplicationController
       @task.destroy
       render json: { message: "Task successfully deleted" }, status: :ok
     else
-      render error: { error: "Unadle to delete Task" }, status: :bad_request
+      render json: { error: "Unadle to delete Task" }, status: :bad_request
     end
   end
 
   private
 
-  def user_params
-    params.require(:task)
+  def task_params
+    params.require(:task).permit!
   end
 
   def find_task

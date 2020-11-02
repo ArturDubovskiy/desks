@@ -34,9 +34,9 @@ const HomePage: FC = () => {
   const classes = useStyles()
   const [visible, setVisible] = useState<string>('none')
   const [edit, setEdit] = useState<boolean>(false)
-  const [desk, setDesk] = useState<string>('')
+  const [deskID, setDeskID] = useState<string>('')
+  const [desk, setDesk] = useState(null)
   const desks = useSelector((state: any) => state.desks.desks)
-  const [currentDesk, setCurrentDesk] = useState(null)
   const desksState = useSelector((state: any) => state.desks)
 
   useEffect(() => {
@@ -45,8 +45,8 @@ const HomePage: FC = () => {
 
   useEffect(() => {
     if (desks.length) {
-      setDesk(desks.slice(-1)[0].id)
-      setCurrentDesk(desks.slice(-1)[0])
+      setDeskID(desks.slice(-1)[0].id)
+      setDesk(desks.slice(-1)[0])
     }
   }, [desks])
 
@@ -60,9 +60,9 @@ const HomePage: FC = () => {
   }
 
   const onDeskSelectHandler = (id: string) => {
-    setDesk(id)
+    setDeskID(id)
     let desk = desks.find((el: DeskRespItem) => el.id === id)
-    setCurrentDesk(desk)
+    setDesk(desk)
   }
 
   const closeFormHandler = (): void => {
@@ -71,24 +71,22 @@ const HomePage: FC = () => {
   }
 
   const deleteDeskHandler = (): void => {
-    dispatch(deleteDeskStart(desk))
+    dispatch(deleteDeskStart(deskID))
+    setDeskID(desks.slice(-1)[0].id)
   }
 
   const editDeskHandler = (form: DeskFormInterface): void => {
-    dispatch(editDeskStart({ id: desk, ...form }))
+    dispatch(editDeskStart({ id: deskID, ...form }))
   }
 
   return (
     <div className="home-page-wrapper">
       <div className={classes.root}>
+        {deskID}
         <Grid container spacing={1} direction="column">
           {desks.length ? (
             <Grid item lg={3} sm={6} xs={12}>
-              <SelectForm
-                desks={desks}
-                value={desk}
-                onSelectDesk={onDeskSelectHandler}
-              ></SelectForm>
+              <SelectForm desks={desks} value={deskID} onSelectDesk={onDeskSelectHandler} />
             </Grid>
           ) : null}
           <Grid item xs={12}>
@@ -132,21 +130,21 @@ const HomePage: FC = () => {
           <Grid item xs={12}>
             <div style={{ display: `${visible}` }}>
               <DeskForm
-                desk={currentDesk}
+                desk={desk}
                 loading={desksState.loading}
                 editDesk={editDeskHandler}
                 edit={edit}
                 createDesk={createDeskHandler}
                 error={desksState.errorCreateDesk}
                 close={closeFormHandler}
-              ></DeskForm>
+              />
             </div>
           </Grid>
           {desksState.errorDeleteDesk ? (
             <ErrorAlert
               error={desksState.errorDeleteDesk}
               onClose={() => dispatch(deleteDeskError(''))}
-            ></ErrorAlert>
+            />
           ) : null}
           <Grid item xs={12}>
             <div>
