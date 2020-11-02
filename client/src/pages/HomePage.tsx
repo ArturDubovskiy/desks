@@ -9,6 +9,7 @@ import {
   deleteDeskError,
   editDeskStart,
 } from '../actions/deskActions'
+import { loadTasks } from '../actions/tasksActions'
 import DeskForm from '../components/DeskForm'
 import SelectForm from '../components/SelectForm'
 import ErrorAlert from '../components/ErrorAlert'
@@ -37,10 +38,13 @@ const HomePage: FC = () => {
   const [deskID, setDeskID] = useState<string>('')
   const [desk, setDesk] = useState(null)
   const desks = useSelector((state: any) => state.desks.desks)
+  const tasks = useSelector((state: any) => state.tasks.tasks)
   const desksState = useSelector((state: any) => state.desks)
 
   useEffect(() => {
     dispatch(loadDesks())
+    // Hadrcoded value for test functionality
+    dispatch(loadTasks(45))
   }, [dispatch])
 
   useEffect(() => {
@@ -82,7 +86,6 @@ const HomePage: FC = () => {
   return (
     <div className="home-page-wrapper">
       <div className={classes.root}>
-        {deskID}
         <Grid container spacing={1} direction="column">
           {desks.length ? (
             <Grid item lg={3} sm={6} xs={12}>

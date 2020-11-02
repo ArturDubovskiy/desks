@@ -3,8 +3,7 @@ class Api::V1::TasksController < ApplicationController
 
   # GET all Tasks
   def index
-    @task = Task.all
-    render json: @tasks
+    render json: desk.tasks
   end
 
   # GET /Tasks/:id
@@ -14,7 +13,7 @@ class Api::V1::TasksController < ApplicationController
 
   # POST /Tasks
   def create
-    @task = Task.new(task_params)
+    @task = desk.tasks.build(task_params)
     if @task.save
       render json: @task, status: :created
     else
@@ -24,7 +23,7 @@ class Api::V1::TasksController < ApplicationController
 
   # PUT /Tasks/:id
   def update
-    @task = Task.find(params[:id])
+    @task = desk.tasks.find(params[:id])
     if @task
       @task.update(task_params)
       render json: { message: "Task sucessfully updated" }, status: :ok
@@ -35,7 +34,7 @@ class Api::V1::TasksController < ApplicationController
 
   # DELETE /Tasks/:id
   def destroy
-    @task = Task.find(params[:id])
+    @task = desk.tasks.find(params[:id])
     if @task
       @task.destroy
       render json: { message: "Task successfully deleted" }, status: :ok
@@ -53,4 +52,9 @@ class Api::V1::TasksController < ApplicationController
   def find_task
     @task = Task.find(params[:id])
   end
+
+  def desk
+    @desk ||= Desk.find(params[:desk_id])
+  end
+
 end

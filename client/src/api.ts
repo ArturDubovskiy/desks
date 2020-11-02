@@ -7,6 +7,9 @@ export default {
     delete: (desk: any) => requestManager.request(`/${desk.id}`, 'DELETE'),
     update: (desk: any) => requestManager.request(`/${desk.id}`, 'PUT', desk)
   },
+  tasks: {
+    get: (deskId: any) => requestManager.request(`/${deskId}/tasks`) 
+  }
 }
 
 
