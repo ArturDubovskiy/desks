@@ -13,6 +13,7 @@ import {
   deleteDesk,
   editDeskDone,
   editDeskError,
+  setCurrentDesk
 } from '../actions/deskActions'
 import { takeLatest, call, put } from 'redux-saga/effects'
 
@@ -27,6 +28,7 @@ function* loadDesksFlow() {
   try {
     const desks = yield call(api.desks.get)
     yield put(setDesks(desks))
+    yield put(setCurrentDesk(desks.slice(-1)[0]))
   } catch (e) {
     yield put(setErrorDesks(errorMsg + e))
   }
@@ -42,6 +44,7 @@ function* addDeskFlow(action: any) {
   try {
     const res = yield call(api.desks.post, { desk: action.payload })
     yield put(setDesk(res))
+    yield put(setCurrentDesk(res))
   } catch (e) {
     yield put(createDeskError(errorMsg + e))
   }

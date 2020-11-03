@@ -67,12 +67,12 @@ export const createTask = (task: any) => ({
   payload: task,
 })
 
+export const setTask = (task: any) => ({
+  type: SET_TASK,
+  payload: task
+})
+
 export const createTaskError = (error: string) => ({
   type: CREATE_TASK_ERROR,
   payload: error,
-})
-
-export const setTask = (task: any) => ({
-  type: SET_TASK,
-  payload: task,
 })

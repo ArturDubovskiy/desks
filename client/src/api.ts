@@ -8,7 +8,8 @@ export default {
     update: (desk: any) => requestManager.request(`/${desk.id}`, 'PUT', desk)
   },
   tasks: {
-    get: (deskId: any) => requestManager.request(`/${deskId}/tasks`) 
+    get: (deskId: any) => requestManager.request(`/${deskId}/tasks`),
+    post: (body: any) => requestManager.request(`/${body.deskId}/tasks`, 'POST', body.data)
   }
 }
 

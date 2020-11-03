@@ -8,10 +8,12 @@ import {
   CREATE_DESK_ERROR,
   DELETE_DESK_ERROR,
   DELETE_DESK,
+  SET_CURRENT_DESK,
 } from '../actions/deskActions'
 
 const initialState = {
   desks: [],
+  activeDesk: undefined,
   loading: false,
   errorDesks: '',
   errorCreateDesk: '',
@@ -32,14 +34,21 @@ export const desksReducer = (state: DesksState = initialState, action: any) => {
     case CREATE_DESK_ERROR:
       return { ...state, errorCreateDesk: action.payload }
     case DELETE_DESK:
-      return { ...state, desks: state.desks.filter((el: DeskRespItem) => el.id !== action.payload) }
+      let newDesks = state.desks.filter((el: DeskRespItem) => el.id !== action.payload)
+      return {
+        ...state,
+        desks: newDesks,
+        activeDesk: newDesks.slice(-1)[0],
+      }
     case DELETE_DESK_ERROR:
       return { ...state, errorDeleteDesk: action.payload }
     case EDIT_DESK_ERROR:
       return { ...state, errorEditDesk: action.payload }
+    case SET_CURRENT_DESK:
+      return { ...state, activeDesk: action.payload }
     case EDIT_DESK_DONE:
       let desks = [...state.desks]
-      for(let i = 1; i < desks.length; i++) {
+      for (let i = 1; i < desks.length; i++) {
         if (desks[i].id === action.payload.id) {
           desks[i] = action.payload
         }

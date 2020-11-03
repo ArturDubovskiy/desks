@@ -35,8 +35,27 @@ export interface Desk {
   name: string
 }
 
+export interface TaskFormProps {
+  onSend(data: any): void
+}
+
+export interface Task {
+  name: string
+  priority: number
+  isDone: boolean
+  desk_id: number
+  created_at: string
+  updated_at: string
+}
+
+export interface TasksAreaProps {
+  tasks: Task[]
+  createTask(data: any): void
+}
+
 export interface DesksState {
   desks: Desk[]
+  activeDesk: DeskRespItem | undefined
   loading: boolean
   errorDesks: string
   errorCreateDesk: string
@@ -44,21 +63,21 @@ export interface DesksState {
 }
 
 export interface Task {
-  name: string,
-  priority: number,
-  isDone: boolean,
-  desk_id: number,
-  created_at: string,
+  name: string
+  priority: number
+  isDone: boolean
+  desk_id: number
+  created_at: string
   updated_at: string
 }
 
 export interface TasksState {
-  tasks: Task[],
-  loading: boolean,
-  errorLoadTasks: string,
-  errorCreateTask: string,
-  errorDeleteTask: string,
-  errorEditTask: string,
+  tasks: Task[]
+  loading: boolean
+  errorLoadTasks: string
+  errorCreateTask: string
+  errorDeleteTask: string
+  errorEditTask: string
 }
 
 export interface ErrorAlertProps {
