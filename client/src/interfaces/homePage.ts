@@ -39,9 +39,26 @@ export interface DesksState {
   desks: Desk[]
   loading: boolean
   errorDesks: string
-  currentDesk: DeskRespItem | object
   errorCreateDesk: string
   errorDeleteDesk: string
+}
+
+export interface Task {
+  name: string,
+  priority: number,
+  isDone: boolean,
+  desk_id: number,
+  created_at: string,
+  updated_at: string
+}
+
+export interface TasksState {
+  tasks: Task[],
+  loading: boolean,
+  errorLoadTasks: string,
+  errorCreateTask: string,
+  errorDeleteTask: string,
+  errorEditTask: string,
 }
 
 export interface ErrorAlertProps {

@@ -1,4 +1,3 @@
-import { createDesk, deleteDeskReq, editDeskReq } from './../api'
 import api from '../api'
 import {
   LOAD_DESKS_LIST,
@@ -41,7 +40,7 @@ export function* createDeskWatcher() {
 function* addDeskFlow(action: any) {
   yield put(setLoadingStatus(true))
   try {
-    const res = yield call(createDesk, { desk: action.payload })
+    const res = yield call(api.desks.post, { desk: action.payload })
     yield put(setDesk(res))
   } catch (e) {
     yield put(createDeskError(errorMsg + e))
@@ -56,7 +55,7 @@ export function* deleteDeskWatcher() {
 function* deleteDeskFlow(action: any) {
   yield put(setLoadingStatus(true))
   try {
-    const res = yield call(deleteDeskReq, { id: action.payload })
+    const res = yield call(api.desks.delete, { id: action.payload })
     yield put(deleteDesk(res.desk))
   } catch (e) {
     yield put(deleteDeskError(errorMsg + e))
@@ -71,7 +70,7 @@ export function* editDeskWatcher() {
 function* editDeskFlow(action: any) {
   yield put(setLoadingStatus(true))
   try {
-    const res = yield call(editDeskReq, { id: action.payload.id, name: action.payload.name })
+    const res = yield call(api.desks.update, { id: action.payload.id, name: action.payload.name })
     yield put(editDeskDone(res))
   } catch (e) {
     yield put(editDeskError(errorMsg + e))

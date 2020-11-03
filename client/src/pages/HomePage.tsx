@@ -9,6 +9,7 @@ import {
   deleteDeskError,
   editDeskStart,
 } from '../actions/deskActions'
+import { loadTasks } from '../actions/tasksActions'
 import DeskForm from '../components/DeskForm'
 import SelectForm from '../components/SelectForm'
 import ErrorAlert from '../components/ErrorAlert'
@@ -34,19 +35,22 @@ const HomePage: FC = () => {
   const classes = useStyles()
   const [visible, setVisible] = useState<string>('none')
   const [edit, setEdit] = useState<boolean>(false)
-  const [desk, setDesk] = useState<string>('')
+  const [deskID, setDeskID] = useState<string>('')
+  const [desk, setDesk] = useState(null)
   const desks = useSelector((state: any) => state.desks.desks)
-  const [currentDesk, setCurrentDesk] = useState(null)
+  const tasks = useSelector((state: any) => state.tasks.tasks)
   const desksState = useSelector((state: any) => state.desks)
 
   useEffect(() => {
     dispatch(loadDesks())
+    // Hadrcoded value for test functionality
+    dispatch(loadTasks(45))
   }, [dispatch])
 
   useEffect(() => {
     if (desks.length) {
-      setDesk(desks.slice(-1)[0].id)
-      setCurrentDesk(desks.slice(-1)[0])
+      setDeskID(desks.slice(-1)[0].id)
+      setDesk(desks.slice(-1)[0])
     }
   }, [desks])
 
@@ -60,9 +64,9 @@ const HomePage: FC = () => {
   }
 
   const onDeskSelectHandler = (id: string) => {
-    setDesk(id)
+    setDeskID(id)
     let desk = desks.find((el: DeskRespItem) => el.id === id)
-    setCurrentDesk(desk)
+    setDesk(desk)
   }
 
   const closeFormHandler = (): void => {
@@ -71,11 +75,12 @@ const HomePage: FC = () => {
   }
 
   const deleteDeskHandler = (): void => {
-    dispatch(deleteDeskStart(desk))
+    dispatch(deleteDeskStart(deskID))
+    setDeskID(desks.slice(-1)[0].id)
   }
 
   const editDeskHandler = (form: DeskFormInterface): void => {
-    dispatch(editDeskStart({ id: desk, ...form }))
+    dispatch(editDeskStart({ id: deskID, ...form }))
   }
 
   return (
@@ -84,11 +89,7 @@ const HomePage: FC = () => {
         <Grid container spacing={1} direction="column">
           {desks.length ? (
             <Grid item lg={3} sm={6} xs={12}>
-              <SelectForm
-                desks={desks}
-                value={desk}
-                onSelectDesk={onDeskSelectHandler}
-              ></SelectForm>
+              <SelectForm desks={desks} value={deskID} onSelectDesk={onDeskSelectHandler} />
             </Grid>
           ) : null}
           <Grid item xs={12}>
@@ -132,21 +133,21 @@ const HomePage: FC = () => {
           <Grid item xs={12}>
             <div style={{ display: `${visible}` }}>
               <DeskForm
-                desk={currentDesk}
+                desk={desk}
                 loading={desksState.loading}
                 editDesk={editDeskHandler}
                 edit={edit}
                 createDesk={createDeskHandler}
                 error={desksState.errorCreateDesk}
                 close={closeFormHandler}
-              ></DeskForm>
+              />
             </div>
           </Grid>
           {desksState.errorDeleteDesk ? (
             <ErrorAlert
               error={desksState.errorDeleteDesk}
               onClose={() => dispatch(deleteDeskError(''))}
-            ></ErrorAlert>
+            />
           ) : null}
           <Grid item xs={12}>
             <div>

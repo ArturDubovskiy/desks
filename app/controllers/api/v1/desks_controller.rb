@@ -14,12 +14,11 @@ class Api::V1::DesksController < ApplicationController
 
   # POST /desks
   def create
-    puts(desk_params)
     @desk = Desk.new(desk_params)
     if @desk.save
-      render json: @desk
+      render json: @desk, status: :created
     else
-      render error: { error: "Unable to create desk" }, status: :bad_request
+      render json: { error: "Unable to create desk" }, status: :bad_request
     end
   end
 
@@ -27,10 +26,9 @@ class Api::V1::DesksController < ApplicationController
   def update
     if @desk
       @desk.update(desk_params)
-      puts(@desk)
       render json: @desk, status: :ok
     else
-      render error: { error: "Unable to update Desk" }, status: :bad_request
+      render json: { error: "Unable to update Desk" }, status: :bad_request
     end
   end
 
@@ -40,7 +38,7 @@ class Api::V1::DesksController < ApplicationController
       @desk.destroy
       render json: {desk: @desk, message: "Desk successfully deleted" }, status: :ok
     else
-      render error: { error: "Unadle to delete Desk" }, status: :bad_request
+      render json: { error: "Unadle to delete Desk" }, status: :bad_request
     end
   end
 
