@@ -40,6 +40,7 @@ export interface TaskFormProps {
 }
 
 export interface Task {
+  id: number
   name: string
   priority: number
   isDone: boolean
@@ -51,6 +52,12 @@ export interface Task {
 export interface TasksAreaProps {
   tasks: Task[]
   createTask(data: any): void
+  deleteTask(id: number): void
+}
+
+export interface TaskCardProps {
+  task: Task
+  deleteTask(id: number): void
 }
 
 export interface DesksState {
@@ -60,6 +67,11 @@ export interface DesksState {
   errorDesks: string
   errorCreateDesk: string
   errorDeleteDesk: string
+}
+
+export interface TasksTableProps {
+  tasks: Task[]
+  onDeleteTask(id: number): void
 }
 
 export interface Task {

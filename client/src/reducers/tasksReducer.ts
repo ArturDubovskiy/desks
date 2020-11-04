@@ -3,9 +3,11 @@ import {
   SET_TASKS_ERROR,
   SET_LOADING_TASK,
   SET_TASK,
-  CREATE_TASK_ERROR
+  CREATE_TASK_ERROR,
+  DELETE_TASK_ERROR,
+  DELETE_TASK,
 } from './../actions/tasksActions'
-import { TasksState } from './../interfaces/homePage'
+import { Task, TasksState } from './../interfaces/homePage'
 const initialState = {
   tasks: [],
   loading: false,
@@ -26,7 +28,12 @@ export const tasksReducer = (state: TasksState = initialState, action: any) => {
     case SET_TASK:
       return { ...state, tasks: [...state.tasks, action.payload] }
     case CREATE_TASK_ERROR:
-      return { ...state, errorCreateTask: action.payload}
+      return { ...state, errorCreateTask: action.payload }
+    case DELETE_TASK_ERROR:
+      return { ...state, errorDeleteTask: action.payload }
+    case DELETE_TASK:
+      let tasks = state.tasks.filter((el: Task) => el.id !== action.payload)
+      return { ...state, tasks }
     default:
       return { ...state }
   }

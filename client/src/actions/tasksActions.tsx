@@ -23,13 +23,13 @@ export const setTasks = (tasks: any[]) => ({
 })
 
 export const setTasksError = (error: string) => ({
-    type: SET_TASKS_ERROR,
-    payload: error,
-  })
+  type: SET_TASKS_ERROR,
+  payload: error,
+})
 
-export const deleteTaskStart = (id: string) => ({
+export const deleteTaskStart = (data: any) => ({
   type: DELETE_TASK_START,
-  payload: id,
+  payload: data,
 })
 
 export const editTaskStart = (task: any) => ({
@@ -69,7 +69,7 @@ export const createTask = (task: any) => ({
 
 export const setTask = (task: any) => ({
   type: SET_TASK,
-  payload: task
+  payload: task,
 })
 
 export const createTaskError = (error: string) => ({

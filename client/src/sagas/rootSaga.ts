@@ -5,7 +5,7 @@ import {
   loadDesksWatcher,
   editDeskWatcher,
 } from './desksSaga'
-import { loadTasksWatcher, createTaskWatcher } from './tasksSaga'
+import { loadTasksWatcher, createTaskWatcher, deleteTaskWatcher } from './tasksSaga'
 export function* rootSaga() {
   yield fork(loadDesksWatcher)
   yield fork(createDeskWatcher)
@@ -13,4 +13,5 @@ export function* rootSaga() {
   yield fork(editDeskWatcher)
   yield fork(loadTasksWatcher)
   yield fork(createTaskWatcher)
+  yield fork(deleteTaskWatcher)
 }

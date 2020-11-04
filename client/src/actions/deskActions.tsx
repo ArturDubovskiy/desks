@@ -84,5 +84,5 @@ export const setDesk = (desk: DeskRespItem) => ({
 
 export const setCurrentDesk = (desk: DeskRespItem) => ({
   type: SET_CURRENT_DESK,
-  payload: desk
+  payload: desk,
 })

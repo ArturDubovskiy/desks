@@ -5,7 +5,10 @@ import {
   setTasks,
   setTasksError,
   CREATE_TASK,
-  setTask
+  setTask,
+  DELETE_TASK_START,
+  deleteTask,
+  deleteTaskError,
 } from './../actions/tasksActions'
 import { takeLatest, put, call } from 'redux-saga/effects'
 import api from '../api'
@@ -36,6 +39,21 @@ function* createTaskFlow(action: any) {
     yield put(setTask(task))
   } catch (e) {
     yield put(createTaskError(e))
+  }
+  yield put(setLoadingTasks(false))
+}
+
+export function* deleteTaskWatcher() {
+  yield takeLatest(DELETE_TASK_START, deleteTaskFlow)
+}
+
+function* deleteTaskFlow(action: any) {
+  yield put(setLoadingTasks(true))
+  try {
+    const task = yield call(api.tasks.delete, action.payload)
+    yield put(deleteTask(task))
+  } catch (e) {
+    yield put(deleteTaskError(e))
   }
   yield put(setLoadingTasks(false))
 }

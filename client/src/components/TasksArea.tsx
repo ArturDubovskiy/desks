@@ -2,6 +2,7 @@ import { Button, makeStyles, Modal, Grid } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { TasksAreaProps } from '../interfaces/homePage'
 import { TasksForm } from './TasksForm'
+import { TasksTable } from './TasksTable'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask }) => {
+export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, deleteTask }) => {
   const [open, setOpen] = useState<boolean>(false)
   const classes = useStyles()
 
@@ -35,7 +36,7 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask }) => {
 
   return (
     <div>
-      <Grid container spacing={1} direction="column">
+      <Grid container spacing={3} direction="column">
         <Grid item lg={3} sm={4} xs={12}>
           <Button
             className={classes.createBtn}
@@ -47,13 +48,7 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask }) => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <ul>
-            {tasks.length
-              ? tasks.map((task: any) => {
-                  return <li key={task.id}>{task.name}</li>
-                })
-              : null}
-          </ul>
+          {tasks.length ? <TasksTable onDeleteTask={deleteTask} tasks={tasks} /> : null}
         </Grid>
       </Grid>
       <Modal

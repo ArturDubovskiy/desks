@@ -13,7 +13,7 @@ import {
   deleteDesk,
   editDeskDone,
   editDeskError,
-  setCurrentDesk
+  setCurrentDesk,
 } from '../actions/deskActions'
 import { takeLatest, call, put } from 'redux-saga/effects'
 

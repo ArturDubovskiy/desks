@@ -37,7 +37,7 @@ class Api::V1::TasksController < ApplicationController
     @task = desk.tasks.find(params[:id])
     if @task
       @task.destroy
-      render json: { message: "Task successfully deleted" }, status: :ok
+      render json: @task, status: :ok
     else
       render json: { error: "Unadle to delete Task" }, status: :bad_request
     end

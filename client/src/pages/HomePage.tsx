@@ -10,7 +10,7 @@ import {
   editDeskStart,
   setCurrentDesk,
 } from '../actions/deskActions'
-import { createTask, loadTasks } from '../actions/tasksActions'
+import { createTask, deleteTaskStart, loadTasks } from '../actions/tasksActions'
 import DeskForm from '../components/DeskForm'
 import SelectForm from '../components/SelectForm'
 import ErrorAlert from '../components/ErrorAlert'
@@ -77,18 +77,22 @@ const HomePage: FC = () => {
   }
 
   const editDeskHandler = (form: DeskFormInterface): void => {
-    dispatch(editDeskStart({ id: currentDesk.id , ...form }))
+    dispatch(editDeskStart({ id: currentDesk.id, ...form }))
   }
 
-  const createTaskHandler = (data: any) => {
-    dispatch(createTask({data, deskId: currentDesk.id}))
+  const createTaskHandler = (data: any): void => {
+    dispatch(createTask({ data, deskId: currentDesk.id }))
+  }
+
+  const deleteTaskHandler = (id: number): void => {
+    dispatch(deleteTaskStart({ deskId: currentDesk.id, taskId: id }))
   }
 
   return (
     <div className="home-page-wrapper">
       <div className={classes.root}>
         <Grid container spacing={1} direction="column">
-          {(desks.length && currentDesk) ? (
+          {desks.length && currentDesk ? (
             <Grid item lg={3} sm={6} xs={12}>
               <SelectForm desks={desks} value={currentDesk.id} onSelectDesk={onDeskSelectHandler} />
             </Grid>
@@ -151,7 +155,11 @@ const HomePage: FC = () => {
             />
           ) : null}
           <Grid item xs={12}>
-            <TasksArea tasks={tasks} createTask={createTaskHandler}></TasksArea>
+            <TasksArea
+              tasks={tasks}
+              createTask={createTaskHandler}
+              deleteTask={deleteTaskHandler}
+            />
           </Grid>
         </Grid>
       </div>

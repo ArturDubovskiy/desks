@@ -9,7 +9,7 @@ import {
   FormControl,
   Button,
 } from '@material-ui/core'
-import React, { ChangeEvent, FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { TaskFormProps } from '../interfaces/homePage'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: 'white',
   },
   formControl: {
-    width: '100%'
+    width: '100%',
   },
   sendBtn: {
-      width: '100%'
-  }
+    width: '100%',
+  },
 }))
 
-export const TasksForm: FC<TaskFormProps> = ({onSend}) => {
+export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
   const classes = useStyles()
   const [form, setForm] = useState({
     name: '',
@@ -79,6 +79,7 @@ export const TasksForm: FC<TaskFormProps> = ({onSend}) => {
             className={classes.sendBtn}
             variant="outlined"
             color="primary"
+            type="submit"
             onClick={() => onSend(form)}
           >
             Send
