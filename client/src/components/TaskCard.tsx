@@ -7,30 +7,40 @@ import {
   CardActions,
   makeStyles,
   Theme,
+  IconButton,
 } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { TaskCardProps } from '../interfaces/homePage'
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardBody: {
     textAlign: 'center',
     wordWrap: 'break-word',
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
   },
   actionButton: {
-    width: '100%',
-  },
-  actions: {
-    background: 'rgba(255,0,0, 0.2)',
+    width: '50%',
   },
   undoneTask: {
     background: 'rgba(0,0,0,0.2)',
+  },
+  doneBtn: {
+    color: 'green',
+  },
+  delBtn: {
+    color: 'red',
+  },
+  undoneBtn: {
+    color: 'red'
   },
   doneTask: {
     background: 'rgba(0, 255, 0, 0.2)',
   },
 }))
 
-export const TaskCard: FC<TaskCardProps> = ({ task, deleteTask }) => {
+export const TaskCard: FC<TaskCardProps> = ({ task, toogleTask, deleteTask }) => {
   const classes = useStyles()
 
   return (
@@ -48,9 +58,18 @@ export const TaskCard: FC<TaskCardProps> = ({ task, deleteTask }) => {
           }).format(new Date(task.created_at))}
         </div>
       </CardContent>
-      <CardActions className={classes.actions}>
-        <Button onClick={() => deleteTask(task.id)} className={classes.actionButton} size="small">
-          Delete
+      <CardActions>
+        {task.isDone ? (
+          <Button onClick={() => toogleTask(task)} className={classes.actionButton}>
+            <HighlightOffIcon className={classes.undoneBtn} />
+          </Button>
+        ) : (
+          <Button onClick={() => toogleTask(task)} className={classes.actionButton}>
+            <CheckCircleOutlineIcon className={classes.doneBtn} />
+          </Button>
+        )}
+        <Button onClick={() => deleteTask(task.id)} className={classes.actionButton}>
+          <DeleteIcon className={classes.delBtn} />
         </Button>
       </CardActions>
     </Card>

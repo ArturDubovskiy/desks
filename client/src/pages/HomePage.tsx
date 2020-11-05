@@ -10,12 +10,19 @@ import {
   editDeskStart,
   setCurrentDesk,
 } from '../actions/deskActions'
-import { createTask, deleteTaskStart, loadTasks } from '../actions/tasksActions'
+import { createTask, deleteTaskStart, loadTasks, toggleTaskStatus } from '../actions/tasksActions'
 import DeskForm from '../components/DeskForm'
 import SelectForm from '../components/SelectForm'
 import ErrorAlert from '../components/ErrorAlert'
-import { DeskFormInterface, DeskRespItem } from '../interfaces/homePage'
+import {
+  Desk,
+  DeskFormInterface,
+  DeskRespItem,
+  DesksState,
+  StoreState,
+} from '../interfaces/interfaces'
 import { TasksArea } from '../components/TasksArea'
+import { Task } from '../interfaces/interfaces'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,20 +44,21 @@ const HomePage: FC = () => {
   const classes = useStyles()
   const [visible, setVisible] = useState<string>('none')
   const [action, setAction] = useState<string>('')
-  const currentDesk = useSelector((state: any) => state.desks.activeDesk)
-  const desks = useSelector((state: any) => state.desks.desks)
-  const tasks = useSelector((state: any) => state.tasks.tasks)
-  const desksState = useSelector((state: any) => state.desks)
+  const currentDesk = useSelector<StoreState, DeskRespItem | undefined>(
+    (state) => state.desks.activeDesk
+  )
+  const tasks = useSelector<StoreState, Task[]>((state) => state.tasks.tasks)
+  const desksState = useSelector<StoreState, DesksState>((state) => state.desks)
 
   useEffect(() => {
     dispatch(loadDesks())
   }, [dispatch])
 
   useEffect(() => {
-    if (desks.length && !action) {
-      dispatch(loadTasks(desks.slice(-1)[0].id))
+    if (desksState.desks.length && !action) {
+      dispatch(loadTasks(desksState.desks.slice(-1)[0].id))
     }
-  }, [desks, dispatch, action])
+  }, [desksState, dispatch, action])
 
   const toggleVisibility = (action: string): void => {
     setAction(action)
@@ -61,10 +69,12 @@ const HomePage: FC = () => {
     dispatch(createDesk(form))
   }
 
-  const onDeskSelectHandler = (id: string) => {
-    let desk = desks.find((el: DeskRespItem) => el.id === id)
+  const onDeskSelectHandler = (id: number) => {
+    const desk = desksState.desks.find((el: Desk) => el.id === id)
+    if (desk) {
+      dispatch(loadTasks(desk.id))
+    }
     dispatch(setCurrentDesk(desk))
-    dispatch(loadTasks(desk.id))
   }
 
   const closeFormHandler = (): void => {
@@ -73,28 +83,52 @@ const HomePage: FC = () => {
   }
 
   const deleteDeskHandler = (): void => {
-    dispatch(deleteDeskStart(currentDesk.id))
+    if (currentDesk) {
+      dispatch(deleteDeskStart(currentDesk.id))
+    }
   }
 
   const editDeskHandler = (form: DeskFormInterface): void => {
-    dispatch(editDeskStart({ id: currentDesk.id, ...form }))
+    if (currentDesk) {
+      dispatch(editDeskStart({ id: currentDesk.id, ...form }))
+    }
   }
 
   const createTaskHandler = (data: any): void => {
-    dispatch(createTask({ data, deskId: currentDesk.id }))
+    if (currentDesk) {
+      dispatch(createTask({ data, deskId: currentDesk.id }))
+    }
   }
 
   const deleteTaskHandler = (id: number): void => {
-    dispatch(deleteTaskStart({ deskId: currentDesk.id, taskId: id }))
+    if (currentDesk) {
+      dispatch(deleteTaskStart({ deskId: currentDesk.id, taskId: id }))
+    }
+  }
+
+  const toogleTaskDoneHandler = (task: Task): void => {
+    if (currentDesk) {
+      dispatch(
+        toggleTaskStatus({
+          deskId: currentDesk.id,
+          taskId: task.id,
+          body: { isDone: !task.isDone },
+        })
+      )
+    }
   }
 
   return (
     <div className="home-page-wrapper">
       <div className={classes.root}>
         <Grid container spacing={1} direction="column">
-          {desks.length && currentDesk ? (
+          {desksState.desks.length && currentDesk ? (
             <Grid item lg={3} sm={6} xs={12}>
-              <SelectForm desks={desks} value={currentDesk.id} onSelectDesk={onDeskSelectHandler} />
+              <SelectForm
+                desks={desksState.desks}
+                value={currentDesk.id}
+                onSelectDesk={onDeskSelectHandler}
+              />
             </Grid>
           ) : null}
           <Grid item xs={12}>
@@ -109,7 +143,7 @@ const HomePage: FC = () => {
                   Create desk
                 </Button>
               </Grid>
-              {desks.length ? (
+              {desksState.desks.length ? (
                 <>
                   <Grid item lg={3} sm={4} xs={12}>
                     <Button
@@ -158,6 +192,7 @@ const HomePage: FC = () => {
             <TasksArea
               tasks={tasks}
               createTask={createTaskHandler}
+              toogleTask={toogleTaskDoneHandler}
               deleteTask={deleteTaskHandler}
             />
           </Grid>

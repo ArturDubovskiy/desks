@@ -7,7 +7,7 @@ export interface DeskFormProps {
   createDesk(form: DeskFormInterface): void
   error: string
   edit: boolean
-  desk: DeskRespItem | null
+  desk: DeskRespItem | undefined
   close(): void
   editDesk(form: DeskFormInterface): void
 }
@@ -18,7 +18,7 @@ export interface Action {
 }
 
 export interface DeskRespItem {
-  id: string
+  id: number
   name: string
   created_at?: string
   updated_at?: string
@@ -26,13 +26,15 @@ export interface DeskRespItem {
 
 export interface SelectFormProps {
   desks: DeskRespItem[]
-  value: string
+  value: number
   onSelectDesk(node: any): void
 }
 
 export interface Desk {
-  id: string
+  id: number
   name: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface TaskFormProps {
@@ -49,14 +51,21 @@ export interface Task {
   updated_at: string
 }
 
+export interface StoreState {
+  desks: DesksState
+  tasks: TasksState
+}
+
 export interface TasksAreaProps {
   tasks: Task[]
   createTask(data: any): void
+  toogleTask(task: Task): void
   deleteTask(id: number): void
 }
 
 export interface TaskCardProps {
   task: Task
+  toogleTask(task: Task): void
   deleteTask(id: number): void
 }
 
@@ -71,6 +80,7 @@ export interface DesksState {
 
 export interface TasksTableProps {
   tasks: Task[]
+  toogleTask(task: Task): void
   onDeleteTask(id: number): void
 }
 

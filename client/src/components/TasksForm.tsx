@@ -9,6 +9,7 @@ import {
   FormControl,
   Button,
 } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 import React, { FC, useState } from 'react'
 import { TaskFormProps } from '../interfaces/homePage'
 
@@ -30,30 +31,40 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
   const classes = useStyles()
+  const [errorMsg, setErrorMsg] = useState<string>('')
   const [form, setForm] = useState({
     name: '',
     priority: 1,
   })
 
   const changeHandler = (event: any): void => {
+    setErrorMsg('')
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
   const submitFormHandler = (event: any): void => {
     event.preventDefault()
-    onSend(form)
+    if (form.name) {
+      onSend(form)
+    } else {
+      setErrorMsg('Title cant be empty')
+    }
   }
 
   return (
     <form className={classes.form} onSubmit={submitFormHandler}>
       <Grid container spacing={1} direction="column">
+        <h1>Create task</h1>
         <Grid item xs={12}>
           <TextField
             fullWidth
             name="name"
             label="Name"
+            autoComplete="off"
             value={form.name}
             onChange={changeHandler}
+            error={Boolean(errorMsg)}
+            helperText={errorMsg}
           />
         </Grid>
         <Grid item xs={12}>
@@ -80,7 +91,7 @@ export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
             variant="outlined"
             color="primary"
             type="submit"
-            onClick={() => onSend(form)}
+            onClick={submitFormHandler}
           >
             Send
           </Button>

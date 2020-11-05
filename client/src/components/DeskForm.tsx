@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     padding: theme.spacing(1),
     border: '1px solid rgba(63, 81, 181, 0.5)',
     borderRadius: '4px',

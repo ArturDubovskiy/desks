@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
+export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask, toogleTask }) => {
   const classes = useStyles()
 
   return (
@@ -49,7 +49,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
           <h1 className={classes.header}>Low</h1>
           {tasks.map((task) => {
             if (task.priority === 1) {
-              return <TaskCard key={task.id} deleteTask={onDeleteTask} task={task} />
+              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
             }
             return null
           })}
@@ -58,7 +58,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
           <h1 className={classes.header}>Medium</h1>
           {tasks.map((task) => {
             if (task.priority === 2) {
-              return <TaskCard key={task.id} deleteTask={onDeleteTask} task={task} />
+              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
             }
             return null
           })}
@@ -67,7 +67,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
           <h1 className={classes.header}>High</h1>
           {tasks.map((task) => {
             if (task.priority === 3) {
-              return <TaskCard key={task.id} deleteTask={onDeleteTask} task={task} />
+              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
             }
             return null
           })}
@@ -76,7 +76,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
           <h1 className={classes.header}>Very High</h1>
           {tasks.map((task) => {
             if (task.priority === 4) {
-              return <TaskCard key={task.id} deleteTask={onDeleteTask} task={task} />
+              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
             }
             return null
           })}
@@ -85,7 +85,7 @@ export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask }) => {
           <h1 className={classes.header}>Critical</h1>
           {tasks.map((task) => {
             if (task.priority === 5) {
-              return <TaskCard key={task.id} deleteTask={onDeleteTask} task={task} />
+              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
             }
             return null
           })}

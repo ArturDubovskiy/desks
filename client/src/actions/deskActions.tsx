@@ -1,4 +1,4 @@
-import { DeskFormInterface, DeskRespItem } from '../interfaces/homePage'
+import { Desk, DeskFormInterface, DeskRespItem } from '../interfaces/interfaces'
 
 export const CREATE_DESK = 'CREATE_DESK'
 export const LOAD_DESKS_LIST = 'LOAD_DESKS_LIST'
@@ -22,7 +22,7 @@ export const loadDesks = () => ({
   type: LOAD_DESKS_LIST,
 })
 
-export const deleteDeskStart = (id: string) => ({
+export const deleteDeskStart = (id: number) => ({
   type: DELETE_DESK_START,
   payload: id,
 })
@@ -82,7 +82,7 @@ export const setDesk = (desk: DeskRespItem) => ({
   payload: desk,
 })
 
-export const setCurrentDesk = (desk: DeskRespItem) => ({
+export const setCurrentDesk = (desk: Desk | undefined) => ({
   type: SET_CURRENT_DESK,
   payload: desk,
 })

@@ -1,3 +1,5 @@
+import { Task } from "../interfaces/interfaces"
+
 export const LOAD_TASKS_LIST = 'LOAD_TASKS_LIST'
 export const DELETE_TASK_START = 'DELETE_TASK_START'
 export const EDIT_TASK_START = 'EDIT_TASK_START'
@@ -11,6 +13,8 @@ export const CREATE_TASK = 'CREATE_TASK'
 export const SET_TASK = 'SET_TASK'
 export const CREATE_TASK_ERROR = 'CREATE_TASK_ERROR'
 export const SET_TASKS_ERROR = 'SET_TASKS_ERROR'
+export const TOGGLE_TASK_STATUS = 'TOGGLE_TASK_STATUS'
+export const SET_TOGGLE_STATUS = 'SET_TOGGLE_STATUS'
 
 export const loadTasks = (deskId: number) => ({
   type: LOAD_TASKS_LIST,
@@ -75,4 +79,14 @@ export const setTask = (task: any) => ({
 export const createTaskError = (error: string) => ({
   type: CREATE_TASK_ERROR,
   payload: error,
+})
+
+export const toggleTaskStatus = (data: any) => ({
+  type: TOGGLE_TASK_STATUS,
+  payload: data
+})
+
+export const setTaskStatus = (task: Task) => ({
+  type: SET_TOGGLE_STATUS,
+  payload: task
 })

@@ -26,7 +26,7 @@ class Api::V1::TasksController < ApplicationController
     @task = desk.tasks.find(params[:id])
     if @task
       @task.update(task_params)
-      render json: { message: "Task sucessfully updated" }, status: :ok
+      render json: @task, status: :ok
     else
       render json: { error: "Unable to update Task" }, status: :bad_request
     end

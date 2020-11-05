@@ -9,6 +9,9 @@ import {
   DELETE_TASK_START,
   deleteTask,
   deleteTaskError,
+  TOGGLE_TASK_STATUS,
+  setTaskStatus,
+  editTaskError,
 } from './../actions/tasksActions'
 import { takeLatest, put, call } from 'redux-saga/effects'
 import api from '../api'
@@ -54,6 +57,21 @@ function* deleteTaskFlow(action: any) {
     yield put(deleteTask(task))
   } catch (e) {
     yield put(deleteTaskError(e))
+  }
+  yield put(setLoadingTasks(false))
+}
+
+export function* toggleTaskStatusWatcher() {
+  yield takeLatest(TOGGLE_TASK_STATUS, toggleTaskFlow)
+}
+
+function* toggleTaskFlow(action: any) {
+  yield put(setLoadingTasks(true))
+  try {
+    const task = yield call(api.tasks.update, action.payload)
+    yield put(setTaskStatus(task))
+  } catch (e) {
+    yield put(editTaskError(e))
   }
   yield put(setLoadingTasks(false))
 }

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, deleteTask }) => {
+export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, toogleTask, deleteTask }) => {
   const [open, setOpen] = useState<boolean>(false)
   const classes = useStyles()
 
@@ -48,7 +48,7 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, deleteTask })
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {tasks.length ? <TasksTable onDeleteTask={deleteTask} tasks={tasks} /> : null}
+          {tasks.length ? <TasksTable toogleTask={toogleTask} onDeleteTask={deleteTask} tasks={tasks} /> : null}
         </Grid>
       </Grid>
       <Modal

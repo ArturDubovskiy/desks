@@ -1,7 +1,7 @@
 const API_URL = `/api/v1/desks`
 
 export default {
-  request: (path?: string, method: string = 'GET', body?: any): any => {
+  request: (path?: string, method: string = 'GET', body?: any) => {
     return fetch(`${API_URL}${path}`, {
       method,
       headers: {
