@@ -3,7 +3,7 @@ import React, { FC, useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/Send'
 import Alert from '@material-ui/lab/Alert'
-import { DeskFormInterface, DeskFormProps } from '../interfaces/homePage'
+import { DeskFormInterface, DeskFormProps } from '../interfaces/interfaces'
 import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles((theme: Theme) => ({

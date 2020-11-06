@@ -1,6 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import React, { ChangeEvent, FC } from 'react'
-import { SelectFormProps } from '../interfaces/homePage'
+import { SelectFormProps } from '../interfaces/interfaces'
 
 const SelectForm: FC<SelectFormProps> = ({ desks, value, onSelectDesk }) => {
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {

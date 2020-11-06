@@ -11,8 +11,9 @@ import {
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import { TaskCardProps } from '../interfaces/homePage'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import { TaskCardProps } from '../interfaces/interfaces'
+import { priorityOptions } from '../utils/constants'
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardBody: {
@@ -33,19 +34,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: 'red',
   },
   undoneBtn: {
-    color: 'red'
+    color: 'red',
   },
   doneTask: {
     background: 'rgba(0, 255, 0, 0.2)',
   },
 }))
 
-export const TaskCard: FC<TaskCardProps> = ({ task, toogleTask, deleteTask }) => {
+export const TaskCard: FC<TaskCardProps> = ({ task, toogleTask, deleteTask, editTask }) => {
   const classes = useStyles()
 
   return (
     <Card variant="outlined" raised className={classes.cardBody}>
-      <CardContent className={task.isDone ? classes.doneTask : classes.undoneTask}>
+      <CardContent
+        className={task.isDone ? classes.doneTask : classes.undoneTask}
+        onClick={() => editTask(task)}
+      >
         <Typography color="textSecondary" gutterBottom>
           {task.name}
         </Typography>
@@ -57,6 +61,7 @@ export const TaskCard: FC<TaskCardProps> = ({ task, toogleTask, deleteTask }) =>
             day: '2-digit',
           }).format(new Date(task.created_at))}
         </div>
+        <div>Priority: {priorityOptions.find((el) => el.key === task.priority)?.name}</div>
       </CardContent>
       <CardActions>
         {task.isDone ? (

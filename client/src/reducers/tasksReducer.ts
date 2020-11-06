@@ -9,7 +9,7 @@ import {
   SET_TOGGLE_STATUS,
   EDIT_TASK_ERROR,
 } from './../actions/tasksActions'
-import { Task, TasksState } from './../interfaces/homePage'
+import { Task, TasksState } from './../interfaces/interfaces'
 const initialState = {
   tasks: [],
   loading: false,
@@ -35,8 +35,8 @@ export const tasksReducer = (state: TasksState = initialState, action: any) => {
       return { ...state, errorDeleteTask: action.payload }
     case SET_TOGGLE_STATUS:
       let newTasks = [...state.tasks]
-      for (let i = 1; i < newTasks.length; i++) {
-        if (newTasks[i].id === action.payload.id) {
+      for (let i = 0; i <= newTasks.length; i++) {
+        if (newTasks[i]?.id === action.payload.id) {
           newTasks[i] = action.payload
         }
       }

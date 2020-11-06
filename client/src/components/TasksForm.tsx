@@ -9,9 +9,9 @@ import {
   FormControl,
   Button,
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/Alert'
-import React, { FC, useState } from 'react'
-import { TaskFormProps } from '../interfaces/homePage'
+import React, { FC, useEffect, useState } from 'react'
+import { TaskFormProps } from '../interfaces/interfaces'
+import { progressesOptions, priorityOptions } from '../utils/constants'
 
 const useStyles = makeStyles((theme: Theme) => ({
   form: {
@@ -29,13 +29,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
+interface FormState {
+  name: string
+  priority: number
+  progress: number
+}
+
+export const TasksForm: FC<TaskFormProps> = ({ onSend, formData }) => {
   const classes = useStyles()
+  const [edit, setEdit] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string>('')
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     name: '',
     priority: 1,
+    progress: 1,
   })
+
+  useEffect(() => {
+    setEdit(false)
+    if (Object.keys(formData).length) {
+      setForm(formData)
+      setEdit(true)
+    }
+  }, [])
 
   const changeHandler = (event: any): void => {
     setErrorMsg('')
@@ -45,7 +61,7 @@ export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
   const submitFormHandler = (event: any): void => {
     event.preventDefault()
     if (form.name) {
-      onSend(form)
+      onSend(form, edit)
     } else {
       setErrorMsg('Title cant be empty')
     }
@@ -77,11 +93,29 @@ export const TasksForm: FC<TaskFormProps> = ({ onSend }) => {
               value={form.priority}
               onChange={changeHandler}
             >
-              <MenuItem value={1}>Low</MenuItem>
-              <MenuItem value={2}>Medium</MenuItem>
-              <MenuItem value={3}>High</MenuItem>
-              <MenuItem value={4}>Very High</MenuItem>
-              <MenuItem value={5}>Critical</MenuItem>
+              {priorityOptions.map((el) => (
+                <MenuItem value={el.key} key={el.key}>
+                  {el.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Progress</InputLabel>
+            <Select
+              name="progress"
+              fullWidth
+              label="Progress"
+              value={form.progress}
+              onChange={changeHandler}
+            >
+              {progressesOptions.map((el) => (
+                <MenuItem key={el.key} value={el.key}>
+                  {el.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

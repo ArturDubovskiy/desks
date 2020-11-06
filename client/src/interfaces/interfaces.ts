@@ -38,7 +38,8 @@ export interface Desk {
 }
 
 export interface TaskFormProps {
-  onSend(data: any): void
+  onSend(data: any, edit: boolean): void
+  formData: any
 }
 
 export interface Task {
@@ -47,6 +48,7 @@ export interface Task {
   priority: number
   isDone: boolean
   desk_id: number
+  progress: number
   created_at: string
   updated_at: string
 }
@@ -59,12 +61,14 @@ export interface StoreState {
 export interface TasksAreaProps {
   tasks: Task[]
   createTask(data: any): void
+  editTask(data: any): void
   toogleTask(task: Task): void
   deleteTask(id: number): void
 }
 
 export interface TaskCardProps {
   task: Task
+  editTask(task: Task): void
   toogleTask(task: Task): void
   deleteTask(id: number): void
 }
@@ -80,6 +84,7 @@ export interface DesksState {
 
 export interface TasksTableProps {
   tasks: Task[]
+  onEditTask(task: Task): void
   toogleTask(task: Task): void
   onDeleteTask(id: number): void
 }

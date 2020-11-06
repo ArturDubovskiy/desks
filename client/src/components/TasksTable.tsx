@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Theme } from '@material-ui/core'
 import React, { FC } from 'react'
-import { TasksTableProps } from '../interfaces/homePage'
+import { TasksTableProps } from '../interfaces/interfaces'
 import { TaskCard } from './TaskCard'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,66 +39,103 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const TasksTable: FC<TasksTableProps> = ({ tasks, onDeleteTask, toogleTask }) => {
+export const TasksTable: FC<TasksTableProps> = ({
+  tasks,
+  onDeleteTask,
+  toogleTask,
+  onEditTask,
+}) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3} className={classes.container}>
         <Grid item lg={2} md={4} sm={6} xs={12} className={classes.category}>
-          <h1 className={classes.header}>Low</h1>
+          <h1 className={classes.header}>Backlog</h1>
           {tasks.map((task) => {
-            if (task.priority === 1) {
-              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
+            if (task.progress === 1) {
+              return (
+                <TaskCard
+                  key={task.id}
+                  editTask={onEditTask}
+                  toogleTask={toogleTask}
+                  deleteTask={onDeleteTask}
+                  task={task}
+                />
+              )
             }
             return null
           })}
         </Grid>
         <Grid item lg={2} md={4} sm={6} xs={12} className={classes.category}>
-          <h1 className={classes.header}>Medium</h1>
+          <h1 className={classes.header}>TODO</h1>
           {tasks.map((task) => {
-            if (task.priority === 2) {
-              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
+            if (task.progress === 2) {
+              return (
+                <TaskCard
+                  editTask={onEditTask}
+                  key={task.id}
+                  toogleTask={toogleTask}
+                  deleteTask={onDeleteTask}
+                  task={task}
+                />
+              )
             }
             return null
           })}
         </Grid>
         <Grid item lg={2} md={4} sm={6} xs={12} className={classes.category}>
-          <h1 className={classes.header}>High</h1>
+          <h1 className={classes.header}>In progress</h1>
           {tasks.map((task) => {
-            if (task.priority === 3) {
-              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
+            if (task.progress === 3) {
+              return (
+                <TaskCard
+                  editTask={onEditTask}
+                  key={task.id}
+                  toogleTask={toogleTask}
+                  deleteTask={onDeleteTask}
+                  task={task}
+                />
+              )
             }
             return null
           })}
         </Grid>
         <Grid item lg={2} md={4} sm={6} xs={12} className={classes.category}>
-          <h1 className={classes.header}>Very High</h1>
+          <h1 className={classes.header}>On review</h1>
           {tasks.map((task) => {
-            if (task.priority === 4) {
-              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
+            if (task.progress === 4) {
+              return (
+                <TaskCard
+                  editTask={onEditTask}
+                  key={task.id}
+                  toogleTask={toogleTask}
+                  deleteTask={onDeleteTask}
+                  task={task}
+                />
+              )
             }
             return null
           })}
         </Grid>
         <Grid item lg={2} md={4} sm={6} xs={12} className={classes.category}>
-          <h1 className={classes.header}>Critical</h1>
+          <h1 className={classes.header}>Done</h1>
           {tasks.map((task) => {
-            if (task.priority === 5) {
-              return <TaskCard key={task.id} toogleTask={toogleTask} deleteTask={onDeleteTask} task={task} />
+            if (task.progress === 5) {
+              return (
+                <TaskCard
+                  editTask={onEditTask}
+                  key={task.id}
+                  toogleTask={toogleTask}
+                  deleteTask={onDeleteTask}
+                  task={task}
+                />
+              )
             }
             return null
           })}
         </Grid>
       </Grid>
     </div>
-
-    // <ul>
-    //   {tasks.length
-    //     ? tasks.map((task: any) => {
-    //         return <li key={task.id}>{task.name}</li>
-    //       })
-    //     : null}
-    // </ul>
   )
 }

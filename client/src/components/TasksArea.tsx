@@ -1,6 +1,6 @@
 import { Button, makeStyles, Modal, Grid } from '@material-ui/core'
 import React, { FC, useState } from 'react'
-import { TasksAreaProps } from '../interfaces/homePage'
+import { TasksAreaProps } from '../interfaces/interfaces'
 import { TasksForm } from './TasksForm'
 import { TasksTable } from './TasksTable'
 
@@ -17,8 +17,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, toogleTask, deleteTask }) => {
+export const TasksArea: FC<TasksAreaProps> = ({
+  tasks,
+  createTask,
+  toogleTask,
+  deleteTask,
+  editTask,
+}) => {
   const [open, setOpen] = useState<boolean>(false)
+  const [formData, setFormData] = useState({})
   const classes = useStyles()
 
   const handleOpen = () => {
@@ -26,12 +33,28 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, toogleTask, d
   }
 
   const handleClose = () => {
+    setFormData({})
     setOpen(false)
   }
 
-  const sendHandler = (data: any): void => {
+  const sendHandler = (data: any, edit: boolean): void => {
     setOpen(false)
-    createTask(data)
+    setFormData({})
+    if (edit) {
+      editTask(data)
+    } else {
+      createTask(data)
+    }
+  }
+
+  const getEditTaskData = (data: any) => {
+    setFormData({
+      id: data.id,
+      name: data.name,
+      priority: data.priority,
+      progress: data.progress,
+    })
+    handleOpen()
   }
 
   return (
@@ -48,7 +71,14 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, toogleTask, d
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {tasks.length ? <TasksTable toogleTask={toogleTask} onDeleteTask={deleteTask} tasks={tasks} /> : null}
+          {tasks.length ? (
+            <TasksTable
+              toogleTask={toogleTask}
+              onDeleteTask={deleteTask}
+              onEditTask={getEditTaskData}
+              tasks={tasks}
+            />
+          ) : null}
         </Grid>
       </Grid>
       <Modal
@@ -58,7 +88,7 @@ export const TasksArea: FC<TasksAreaProps> = ({ tasks, createTask, toogleTask, d
         aria-describedby="simple-modal-description"
       >
         <div className={classes.modal}>
-          <TasksForm onSend={(data) => sendHandler(data)}></TasksForm>
+          <TasksForm onSend={sendHandler} formData={formData}></TasksForm>
         </div>
       </Modal>
     </div>

@@ -1,6 +1,5 @@
 import { SET_LOADING_STATUS, EDIT_DESK_ERROR, EDIT_DESK_DONE } from './../actions/deskActions'
-import { DesksState } from './../interfaces/homePage'
-import { DeskRespItem } from '../interfaces/homePage'
+import { DesksState, DeskRespItem } from './../interfaces/interfaces'
 import {
   SET_ERROR_DESKS,
   SET_DESK,

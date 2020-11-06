@@ -72,6 +72,7 @@ const HomePage: FC = () => {
   const onDeskSelectHandler = (id: number) => {
     const desk = desksState.desks.find((el: Desk) => el.id === id)
     if (desk) {
+      setAction('change')
       dispatch(loadTasks(desk.id))
     }
     dispatch(setCurrentDesk(desk))
@@ -97,6 +98,20 @@ const HomePage: FC = () => {
   const createTaskHandler = (data: any): void => {
     if (currentDesk) {
       dispatch(createTask({ data, deskId: currentDesk.id }))
+    }
+  }
+
+  const editTaskHandler = (data: any) => {
+    console.log(data)
+
+    if (currentDesk) {
+      dispatch(
+        toggleTaskStatus({
+          deskId: currentDesk.id,
+          taskId: data.id,
+          body: { name: data.name, priority: data.priority, progress: data.progress },
+        })
+      )
     }
   }
 
@@ -192,6 +207,7 @@ const HomePage: FC = () => {
             <TasksArea
               tasks={tasks}
               createTask={createTaskHandler}
+              editTask={editTaskHandler}
               toogleTask={toogleTaskDoneHandler}
               deleteTask={deleteTaskHandler}
             />
